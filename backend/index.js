@@ -10,6 +10,7 @@ const authRoute = require("./routes/auth");
 const postRoute = require("./routes/posts");
 const router = express.Router();
 const path = require("path");
+const check_auth = require("./middleware/check-auth");
 
 dotenv.config();
 
@@ -46,7 +47,8 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
 });
 
 app.use("/api/auth", authRoute);
-app.use("/api/users", userRoute);
+
+app.use("/api/users", check_auth, userRoute);
 app.use("/api/posts", postRoute);
 
 app.listen(8800, () => {
